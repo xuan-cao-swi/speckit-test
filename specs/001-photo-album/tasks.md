@@ -31,18 +31,18 @@ Based on plan.md structure:
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project using `vapor new PhotoAlbumOrganizer` or Swift Package Manager
-- [ ] T002 Configure Package.swift with dependencies (Vapor 4.x, Fluent, FluentSQLiteDriver)
-- [ ] T003 [P] Create directory structure: Sources/App/{Controllers,Models,Migrations,Services}
-- [ ] T004 [P] Create directory structure: Public/{css,js,thumbnails}
-- [ ] T005 [P] Create directory structure: Tests/AppTests/{Controllers,Models,Integration}
-- [ ] T006 [P] Create directory structure: db/ for SQLite database
-- [ ] T007 Create Sources/App/main.swift with Vapor application entry point
-- [ ] T008 Create Sources/App/configure.swift with database and middleware setup
-- [ ] T009 Create Sources/App/routes.swift with initial route structure
-- [ ] T010 [P] Configure SwiftLint with .swiftlint.yml for code quality enforcement
-- [ ] T011 [P] Create .gitignore for Swift/Vapor project (db/*.db, .build/, Package.resolved)
-- [ ] T012 Run `swift build` to verify project setup and dependencies
+- [x] T001 Create project using `vapor new PhotoAlbumOrganizer` or Swift Package Manager
+- [x] T002 Configure Package.swift with dependencies (Vapor 4.x, Fluent, FluentSQLiteDriver)
+- [x] T003 [P] Create directory structure: Sources/App/{Controllers,Models,Migrations,Services}
+- [x] T004 [P] Create directory structure: Public/{css,js,thumbnails}
+- [x] T005 [P] Create directory structure: Tests/AppTests/{Controllers,Models,Integration}
+- [x] T006 [P] Create directory structure: db/ for SQLite database
+- [x] T007 Create Sources/App/main.swift with Vapor application entry point
+- [x] T008 Create Sources/App/configure.swift with database and middleware setup
+- [x] T009 Create Sources/App/routes.swift with initial route structure
+- [x] T010 [P] Configure SwiftLint with .swiftlint.yml for code quality enforcement
+- [x] T011 [P] Create .gitignore for Swift/Vapor project (db/*.db, .build/, Package.resolved)
+- [x] T012 Run `swift build` to verify project setup and dependencies
 
 ---
 
@@ -52,21 +52,21 @@ Based on plan.md structure:
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T013 Create Album model in Sources/App/Models/Album.swift with all fields per data-model.md
-- [ ] T014 Create Photo model in Sources/App/Models/Photo.swift with all fields and relationships
-- [ ] T015 Create UserPreference model in Sources/App/Models/UserPreference.swift as singleton
-- [ ] T016 Create CreateAlbum migration in Sources/App/Migrations/CreateAlbum.swift with indexes
-- [ ] T017 Create CreatePhoto migration in Sources/App/Migrations/CreatePhoto.swift with composite index
-- [ ] T018 Create CreateUserPreference migration in Sources/App/Migrations/CreateUserPreference.swift
-- [ ] T019 Register migrations in configure.swift and configure SQLite with WAL mode
-- [ ] T020 Create FileValidationService in Sources/App/Services/FileValidationService.swift for image validation
-- [ ] T021 Create ThumbnailService in Sources/App/Services/ThumbnailService.swift using ImageIO framework
-- [ ] T022 Configure static file serving middleware in configure.swift for Public/ directory
-- [ ] T023 Create Public/index.html with semantic HTML structure and accessibility attributes
-- [ ] T024 Create Public/css/styles.css with responsive grid layout and mobile-first design
-- [ ] T025 Create Public/js/utils.js with shared utilities (API fetch helpers, error handling)
-- [ ] T026 Run migrations with `swift run` to create database schema
-- [ ] T027 Verify database schema using `sqlite3 db/photos.db .schema`
+- [x] T013 Create Album model in Sources/App/Models/Album.swift with all fields per data-model.md
+- [x] T014 Create Photo model in Sources/App/Models/Photo.swift with all fields and relationships
+- [x] T015 Create UserPreference model in Sources/App/Models/UserPreference.swift as singleton
+- [x] T016 Create CreateAlbum migration in Sources/App/Migrations/CreateAlbum.swift with indexes
+- [x] T017 Create CreatePhoto migration in Sources/App/Migrations/CreatePhoto.swift with composite index
+- [x] T018 Create CreateUserPreference migration in Sources/App/Migrations/CreateUserPreference.swift
+- [x] T019 Register migrations in configure.swift and configure SQLite with WAL mode
+- [x] T020 Create FileValidationService in Sources/App/Services/FileValidationService.swift for image validation
+- [x] T021 Create ThumbnailService in Sources/App/Services/ThumbnailService.swift using ImageIO framework
+- [x] T022 Configure static file serving middleware in configure.swift for Public/ directory
+- [x] T023 Create Public/index.html with semantic HTML structure and accessibility attributes
+- [x] T024 Create Public/css/styles.css with responsive grid layout and mobile-first design
+- [x] T025 Create Public/js/utils.js with shared utilities (API fetch helpers, error handling)
+- [x] T026 Run migrations with `swift run` to create database schema
+- [x] T027 Verify database schema using `sqlite3 db/photos.db .schema`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -82,37 +82,37 @@ Based on plan.md structure:
 
 > **CRITICAL: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T028 [P] [US1] Create AlbumTests.swift - test Album model validation (name required, date valid)
-- [ ] T029 [P] [US1] Create PhotoTests.swift - test Photo model validation and relationships
-- [ ] T030 [US1] Create AlbumControllerTests.swift - test GET /api/albums returns empty array initially
-- [ ] T031 [US1] Create AlbumControllerTests.swift - test GET /api/albums returns albums sorted by date
-- [ ] T032 [US1] Create AlbumControllerTests.swift - test GET /api/albums/:id returns album details
-- [ ] T033 [US1] Create PhotoControllerTests.swift - test GET /api/albums/:id/photos returns photos sorted by displayOrder
-- [ ] T034 [US1] Create integration test - verify album with photos returns correct photoCount
-- [ ] T035 [US1] Run tests with `swift test` - verify ALL tests FAIL (red phase)
+- [x] T028 [P] [US1] Create AlbumTests.swift - test Album model validation (name required, date valid)
+- [x] T029 [P] [US1] Create PhotoTests.swift - test Photo model validation and relationships
+- [x] T030 [US1] Create AlbumControllerTests.swift - test GET /api/albums returns empty array initially
+- [x] T031 [US1] Create AlbumControllerTests.swift - test GET /api/albums returns albums sorted by date
+- [x] T032 [US1] Create AlbumControllerTests.swift - test GET /api/albums/:id returns album details
+- [x] T033 [US1] Create PhotoControllerTests.swift - test GET /api/albums/:id/photos returns photos sorted by displayOrder
+- [x] T034 [US1] Create integration test - verify album with photos returns correct photoCount
+- [x] T035 [US1] Run tests with `swift test` - verify ALL tests FAIL (red phase)
 
 ### Implementation for User Story 1
 
-- [ ] T036 [P] [US1] Implement AlbumController.index in Sources/App/Controllers/AlbumController.swift (GET /api/albums)
-- [ ] T037 [P] [US1] Implement AlbumController.show in Sources/App/Controllers/AlbumController.swift (GET /api/albums/:id)
-- [ ] T038 [P] [US1] Implement PhotoController.index in Sources/App/Controllers/PhotoController.swift (GET /api/albums/:id/photos)
-- [ ] T039 [US1] Register album routes in routes.swift (api.get("albums"), api.get("albums", ":albumId"))
-- [ ] T040 [US1] Register photo routes in routes.swift (api.get("albums", ":albumId", "photos"))
-- [ ] T041 [US1] Add computed photoCount property to Album model (count photos relationship)
-- [ ] T042 [US1] Create AppState object in Public/js/albums.js with albums array and currentView state
-- [ ] T043 [US1] Implement loadAlbums() function in Public/js/albums.js to fetch from GET /api/albums
-- [ ] T044 [US1] Implement renderAlbums() function in Public/js/albums.js to display album grid
-- [ ] T045 [US1] Add album card click handler to navigate to album detail view
-- [ ] T046 [US1] Create Public/js/photos.js for photo tile grid rendering
-- [ ] T047 [US1] Implement loadPhotos(albumId) function to fetch from GET /api/albums/:id/photos
-- [ ] T048 [US1] Implement renderPhotoGrid() function with responsive tile layout
-- [ ] T049 [US1] Add back button handler to return from album detail to album list
-- [ ] T050 [US1] Style album grid with CSS (grid layout, hover states, cover images)
-- [ ] T051 [US1] Style photo tiles with CSS (responsive grid, aspect ratio preservation)
-- [ ] T052 [US1] Add loading states and error handling UI for failed API calls
-- [ ] T053 [US1] Run tests with `swift test` - verify ALL tests PASS (green phase)
-- [ ] T054 [US1] Refactor code for clarity and remove duplication (refactor phase)
-- [ ] T055 [US1] Manual testing: Launch app, verify albums display and navigation works
+- [x] T036 [P] [US1] Implement AlbumController.index in Sources/App/Controllers/AlbumController.swift (GET /api/albums)
+- [x] T037 [P] [US1] Implement AlbumController.show in Sources/App/Controllers/AlbumController.swift (GET /api/albums/:id)
+- [x] T038 [P] [US1] Implement PhotoController.index in Sources/App/Controllers/PhotoController.swift (GET /api/albums/:id/photos)
+- [x] T039 [US1] Register album routes in routes.swift (api.get("albums"), api.get("albums", ":albumId"))
+- [x] T040 [US1] Register photo routes in routes.swift (api.get("albums", ":albumId", "photos"))
+- [x] T041 [US1] Add computed photoCount property to Album model (count photos relationship)
+- [x] T042 [US1] Create AppState object in Public/js/albums.js with albums array and currentView state
+- [x] T043 [US1] Implement loadAlbums() function in Public/js/albums.js to fetch from GET /api/albums
+- [x] T044 [US1] Implement renderAlbums() function in Public/js/albums.js to display album grid
+- [x] T045 [US1] Add album card click handler to navigate to album detail view
+- [x] T046 [US1] Create Public/js/photos.js for photo tile grid rendering
+- [x] T047 [US1] Implement loadPhotos(albumId) function to fetch from GET /api/albums/:id/photos
+- [x] T048 [US1] Implement renderPhotoGrid() function with responsive tile layout
+- [x] T049 [US1] Add back button handler to return from album detail to album list
+- [x] T050 [US1] Style album grid with CSS (grid layout, hover states, cover images)
+- [x] T051 [US1] Style photo tiles with CSS (responsive grid, aspect ratio preservation)
+- [x] T052 [US1] Add loading states and error handling UI for failed API calls
+- [x] T053 [US1] Run tests with `swift test` - verify ALL tests PASS (green phase)
+- [x] T054 [US1] Refactor code for clarity and remove duplication (refactor phase)
+- [x] T055 [US1] Manual testing: Launch app, verify albums display and navigation works
 
 **Checkpoint**: User Story 1 complete - users can view and browse albums independently
 

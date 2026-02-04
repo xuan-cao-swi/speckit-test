@@ -1,0 +1,54 @@
+# Swift/Vapor Project
+.DS_Store
+.build/
+.swiftpm/
+Package.resolved
+*.xcodeproj
+*.xcworkspace
+DerivedData/
+.idea/
+
+# Vapor
+db/*.db
+db/*.db-shm
+db/*.db-wal
+
+# SQLite
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+Logs/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Thumbnails cache
+Public/thumbnails/*
+!Public/thumbnails/.gitkeep
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Testing
+.build-test/
+*.profdata
+*.profraw
+xcov_report/
+coverage/
+
+# Temporary files
+*.swp
+*.swo
+*~
+.#*
