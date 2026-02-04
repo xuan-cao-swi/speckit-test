@@ -126,31 +126,31 @@ Based on plan.md structure:
 
 ### Tests for User Story 2 (TDD - Write These FIRST) ⚠️
 
-- [ ] T056 [P] [US2] Create test for POST /api/albums - verify album creation with valid data
-- [ ] T057 [P] [US2] Create test for POST /api/albums - verify 400 error with invalid data (empty name)
-- [ ] T058 [P] [US2] Create test for PATCH /api/albums/:id - verify album update
-- [ ] T059 [P] [US2] Create test for DELETE /api/albums/:id - verify album deletion (204 response)
-- [ ] T060 [US2] Create integration test - verify deleting album cascades to photos table
-- [ ] T061 [US2] Run tests - verify ALL new tests FAIL (red phase)
+- [x] T056 [P] [US2] Create test for POST /api/albums - verify album creation with valid data
+- [x] T057 [P] [US2] Create test for POST /api/albums - verify 400 error with invalid data (empty name)
+- [x] T058 [P] [US2] Create test for PATCH /api/albums/:id - verify album update
+- [x] T059 [P] [US2] Create test for DELETE /api/albums/:id - verify album deletion (204 response)
+- [x] T060 [US2] Create integration test - verify deleting album cascades to photos table
+- [x] T061 [US2] Run tests - verify ALL new tests FAIL (red phase)
 
 ### Implementation for User Story 2
 
-- [ ] T062 [P] [US2] Implement AlbumController.create in Sources/App/Controllers/AlbumController.swift (POST /api/albums)
-- [ ] T063 [P] [US2] Implement AlbumController.update in Sources/App/Controllers/AlbumController.swift (PATCH /api/albums/:id)
-- [ ] T064 [P] [US2] Implement AlbumController.delete in Sources/App/Controllers/AlbumController.swift (DELETE /api/albums/:id)
-- [ ] T065 [US2] Add validation in AlbumController.create for name length (1-255 chars)
-- [ ] T066 [US2] Add validation in AlbumController.create for valid date format
-- [ ] T067 [US2] Register create/update/delete routes in routes.swift
-- [ ] T068 [US2] Create album creation form modal in Public/index.html
-- [ ] T069 [US2] Implement createAlbumModal() function in Public/js/albums.js
-- [ ] T070 [US2] Implement submitCreateAlbum() function to POST /api/albums
-- [ ] T071 [US2] Implement editAlbumModal(albumId) function for edit form
-- [ ] T072 [US2] Implement submitEditAlbum(albumId) function to PATCH /api/albums/:id
-- [ ] T073 [US2] Implement deleteAlbum(albumId) function with confirmation dialog
-- [ ] T074 [US2] Add optimistic UI updates (show album immediately, rollback on error)
-- [ ] T075 [US2] Add form validation UI (highlight errors, show messages)
-- [ ] T076 [US2] Style modal forms with CSS (centered, accessible, responsive)
-- [ ] T077 [US2] Add keyboard shortcuts (Escape to close modal, Enter to submit)
+- [x] T062 [P] [US2] Implement AlbumController.create in Sources/App/Controllers/AlbumController.swift (POST /api/albums)
+- [x] T063 [P] [US2] Implement AlbumController.update in Sources/App/Controllers/AlbumController.swift (PATCH /api/albums/:id)
+- [x] T064 [P] [US2] Implement AlbumController.delete in Sources/App/Controllers/AlbumController.swift (DELETE /api/albums/:id)
+- [x] T065 [US2] Add validation in AlbumController.create for name length (1-255 chars)
+- [x] T066 [US2] Add validation in AlbumController.create for valid date format
+- [x] T067 [US2] Register create/update/delete routes in routes.swift
+- [x] T068 [US2] Create album creation form modal in Public/index.html
+- [x] T069 [US2] Implement createAlbumModal() function in Public/js/albums.js
+- [x] T070 [US2] Implement submitCreateAlbum() function to POST /api/albums
+- [x] T071 [US2] Implement editAlbumModal(albumId) function for edit form
+- [x] T072 [US2] Implement submitEditAlbum(albumId) function to PATCH /api/albums/:id
+- [x] T073 [US2] Implement deleteAlbum(albumId) function with confirmation dialog
+- [x] T074 [US2] Add optimistic UI updates (show album immediately, rollback on error)
+- [x] T075 [US2] Add form validation UI (highlight errors, show messages)
+- [x] T076 [US2] Style modal forms with CSS (centered, accessible, responsive)
+- [x] T077 [US2] Add keyboard shortcuts (Escape to close modal, Enter to submit)
 - [ ] T078 [US2] Run tests - verify ALL tests PASS (green phase)
 - [ ] T079 [US2] Refactor form handling code to reduce duplication
 - [ ] T080 [US2] Manual testing: Create, edit, delete albums, verify database persistence
@@ -169,39 +169,39 @@ Based on plan.md structure:
 
 ### Tests for User Story 4 (TDD - Write These FIRST) ⚠️
 
-- [ ] T081 [P] [US4] Create test for POST /api/albums/:id/photos - verify batch photo addition
-- [ ] T082 [P] [US4] Create test for POST /api/albums/:id/photos - verify 400 error for non-existent file
-- [ ] T083 [P] [US4] Create test for POST /api/albums/:id/photos - verify 400 error for invalid image format
-- [ ] T084 [P] [US4] Create test for DELETE /api/photos/:id - verify photo removal (204 response)
-- [ ] T085 [P] [US4] Create test for GET /api/photos/:id/thumbnail - verify thumbnail generation and caching
-- [ ] T086 [US4] Create FileValidationServiceTests.swift - test file existence and format validation
-- [ ] T087 [US4] Create ThumbnailServiceTests.swift - test thumbnail generation with ImageIO
-- [ ] T088 [US4] Create integration test - verify adding photos updates album photoCount
-- [ ] T089 [US4] Run tests - verify ALL new tests FAIL (red phase)
+- [x] T081 [P] [US4] Create test for POST /api/albums/:id/photos - verify batch photo addition
+- [x] T082 [P] [US4] Create test for POST /api/albums/:id/photos - verify 400 error for non-existent file
+- [x] T083 [P] [US4] Create test for POST /api/albums/:id/photos - verify 400 error for invalid image format
+- [x] T084 [P] [US4] Create test for DELETE /api/photos/:id - verify photo removal (204 response)
+- [x] T085 [P] [US4] Create test for GET /api/photos/:id/thumbnail - verify thumbnail generation and caching
+- [x] T086 [US4] Create FileValidationServiceTests.swift - test file existence and format validation
+- [x] T087 [US4] Create ThumbnailServiceTests.swift - test thumbnail generation with ImageIO
+- [x] T088 [US4] Create integration test - verify adding photos updates album photoCount
+- [x] T089 [US4] Run tests - verify ALL new tests FAIL (red phase)
 
 ### Implementation for User Story 4
 
-- [ ] T090 [P] [US4] Implement FileValidationService.validateImageFile(path:) to check file exists and format
-- [ ] T091 [P] [US4] Implement FileValidationService.getImageMetadata(path:) to extract width/height/format/size
-- [ ] T092 [P] [US4] Implement ThumbnailService.generateThumbnail(sourcePath:size:) using ImageIO
-- [ ] T093 [P] [US4] Implement ThumbnailService.getCachedThumbnail(photoId:) to check cache first
-- [ ] T094 [US4] Implement PhotoController.create in Sources/App/Controllers/PhotoController.swift (POST batch)
-- [ ] T095 [US4] Implement PhotoController.delete in Sources/App/Controllers/PhotoController.swift (DELETE)
-- [ ] T096 [US4] Implement PhotoController.thumbnail to serve thumbnails (GET /api/photos/:id/thumbnail)
-- [ ] T097 [US4] Add batch insert logic in PhotoController.create for multiple photos in single transaction
-- [ ] T098 [US4] Add auto-increment displayOrder logic when adding photos to album
-- [ ] T099 [US4] Register photo routes in routes.swift (POST, DELETE, thumbnail endpoint)
-- [ ] T100 [US4] Create file picker UI in Public/index.html (hidden input type="file" multiple)
-- [ ] T101 [US4] Implement addPhotosButton click handler in Public/js/photos.js
-- [ ] T102 [US4] Implement handlePhotoSelection() to get file paths and POST to API
-- [ ] T103 [US4] Implement renderPhotoTile(photo) to display thumbnail with data attributes
-- [ ] T104 [US4] Add photo delete button to each tile with confirmation
-- [ ] T105 [US4] Implement deletePhoto(photoId) function to call DELETE /api/photos/:id
-- [ ] T106 [US4] Add loading spinner for thumbnail generation (lazy load)
-- [ ] T107 [US4] Add error UI for missing files (placeholder image, "File not found" message)
-- [ ] T108 [US4] Add error UI for invalid formats (show supported formats list)
-- [ ] T109 [US4] Style photo tiles with hover effects and delete button positioning
-- [ ] T110 [US4] Optimize thumbnail loading with lazy loading and intersection observer
+- [x] T090 [P] [US4] Implement FileValidationService.validateImageFile(path:) to check file exists and format
+- [x] T091 [P] [US4] Implement FileValidationService.getImageMetadata(path:) to extract width/height/format/size
+- [x] T092 [P] [US4] Implement ThumbnailService.generateThumbnail(sourcePath:size:) using ImageIO
+- [x] T093 [P] [US4] Implement ThumbnailService.getCachedThumbnail(photoId:) to check cache first
+- [x] T094 [US4] Implement PhotoController.create in Sources/App/Controllers/PhotoController.swift (POST batch)
+- [x] T095 [US4] Implement PhotoController.delete in Sources/App/Controllers/PhotoController.swift (DELETE)
+- [x] T096 [US4] Implement PhotoController.thumbnail to serve thumbnails (GET /api/photos/:id/thumbnail)
+- [x] T097 [US4] Add batch insert logic in PhotoController.create for multiple photos in single transaction
+- [x] T098 [US4] Add auto-increment displayOrder logic when adding photos to album
+- [x] T099 [US4] Register photo routes in routes.swift (POST, DELETE, thumbnail endpoint)
+- [x] T100 [US4] Create file picker UI in Public/index.html (hidden input type="file" multiple)
+- [x] T101 [US4] Implement addPhotosButton click handler in Public/js/photos.js
+- [x] T102 [US4] Implement handlePhotoSelection() to get file paths and POST to API
+- [x] T103 [US4] Implement renderPhotoTile(photo) to display thumbnail with data attributes
+- [x] T104 [US4] Add photo delete button to each tile with confirmation
+- [x] T105 [US4] Implement deletePhoto(photoId) function to call DELETE /api/photos/:id
+- [x] T106 [US4] Add loading spinner for thumbnail generation (lazy load)
+- [x] T107 [US4] Add error UI for missing files (placeholder image, "File not found" message)
+- [x] T108 [US4] Add error UI for invalid formats (show supported formats list)
+- [x] T109 [US4] Style photo tiles with hover effects and delete button positioning
+- [x] T110 [US4] Optimize thumbnail loading with lazy loading and intersection observer
 - [ ] T111 [US4] Run tests - verify ALL tests PASS (green phase)
 - [ ] T112 [US4] Refactor thumbnail generation for better error handling
 - [ ] T113 [US4] Manual testing: Add 50+ photos, verify performance <500ms per thumbnail
@@ -218,31 +218,31 @@ Based on plan.md structure:
 
 ### Tests for User Story 3 (TDD - Write These FIRST) ⚠️
 
-- [ ] T114 [P] [US3] Create test for PATCH /api/albums/reorder - verify batch customOrder update
-- [ ] T115 [P] [US3] Create test for PATCH /api/albums/reorder - verify transaction atomicity
-- [ ] T116 [P] [US3] Create test for GET /api/albums?sort=custom_order - verify custom ordering
-- [ ] T117 [US3] Create integration test - verify reorder persists across app restart
-- [ ] T118 [US3] Run tests - verify ALL new tests FAIL (red phase)
+- [x] T114 [P] [US3] Create test for PATCH /api/albums/reorder - verify batch customOrder update
+- [x] T115 [P] [US3] Create test for PATCH /api/albums/reorder - verify transaction atomicity
+- [x] T116 [P] [US3] Create test for GET /api/albums?sort=custom_order - verify custom ordering
+- [x] T117 [US3] Create integration test - verify reorder persists across app restart
+- [x] T118 [US3] Run tests - verify ALL new tests FAIL (red phase)
 
 ### Implementation for User Story 3
 
-- [ ] T119 [US3] Implement AlbumController.reorder in Sources/App/Controllers/AlbumController.swift (PATCH batch)
-- [ ] T120 [US3] Add transaction handling in reorder to ensure atomicity
-- [ ] T121 [US3] Update AlbumController.index to support ?sort=custom_order parameter
-- [ ] T122 [US3] Register reorder route in routes.swift (PATCH /api/albums/reorder)
-- [ ] T123 [US3] Implement HTML5 drag-and-drop in Public/js/albums.js (dragstart, dragover, drop events)
+- [x] T119 [US3] Implement AlbumController.reorder in Sources/App/Controllers/AlbumController.swift (PATCH batch)
+- [x] T120 [US3] Add transaction handling in reorder to ensure atomicity
+- [x] T121 [US3] Update AlbumController.index to support ?sort=custom_order parameter
+- [x] T122 [US3] Register reorder route in routes.swift (PATCH /api/albums/reorder)
+- [x] T123 [US3] Implement HTML5 drag-and-drop in Public/js/albums.js (dragstart, dragover, drop events)
 - [ ] T124 [US3] Add touch event polyfill for mobile support (touchstart, touchmove, touchend)
-- [ ] T125 [US3] Implement calculateNewOrder() function to compute customOrder values on drop
-- [ ] T126 [US3] Implement submitReorder(updates) function to PATCH /api/albums/reorder
-- [ ] T127 [US3] Add optimistic UI update during drag (visual reordering before API call)
-- [ ] T128 [US3] Add debouncing to avoid excessive API calls during rapid reordering (500ms delay)
-- [ ] T129 [US3] Implement rollback on API error (restore original order)
-- [ ] T130 [US3] Add "Reset to Date Order" button to clear custom ordering
-- [ ] T131 [US3] Implement resetToDateOrder() function to set customOrder=null for all albums
-- [ ] T132 [US3] Add CSS classes for drag states (dragging, drag-over, drop-target)
-- [ ] T133 [US3] Use CSS transforms for smooth drag animations (60 FPS target)
-- [ ] T134 [US3] Add visual feedback (ghost image, drop zone indicators)
-- [ ] T135 [US3] Ensure 44x44px minimum touch targets for mobile accessibility
+- [x] T125 [US3] Implement calculateNewOrder() function to compute customOrder values on drop
+- [x] T126 [US3] Implement submitReorder(updates) function to PATCH /api/albums/reorder
+- [x] T127 [US3] Add optimistic UI update during drag (visual reordering before API call)
+- [x] T128 [US3] Add debouncing to avoid excessive API calls during rapid reordering (500ms delay)
+- [x] T129 [US3] Implement rollback on API error (restore original order)
+- [x] T130 [US3] Add "Reset to Date Order" button to clear custom ordering
+- [x] T131 [US3] Implement resetToDateOrder() function to set customOrder=null for all albums
+- [x] T132 [US3] Add CSS classes for drag states (dragging, drag-over, drop-target)
+- [x] T133 [US3] Use CSS transforms for smooth drag animations (60 FPS target)
+- [x] T134 [US3] Add visual feedback (ghost image, drop zone indicators)
+- [x] T135 [US3] Ensure 44x44px minimum touch targets for mobile accessibility
 - [ ] T136 [US3] Run tests - verify ALL tests PASS (green phase)
 - [ ] T137 [US3] Refactor drag-drop code for better readability
 - [ ] T138 [US3] Manual testing: Drag multiple albums, verify smooth 60 FPS animation
@@ -266,19 +266,19 @@ Based on plan.md structure:
 
 ### Implementation for User Story 5
 
-- [ ] T143 [US5] Create photo viewer modal structure in Public/index.html (full-screen overlay)
-- [ ] T144 [US5] Implement openPhotoViewer(photoIndex) function in Public/js/photos.js
-- [ ] T145 [US5] Implement renderFullscreenPhoto(photo) to display full-resolution image
-- [ ] T146 [US5] Implement navigatePhoto(direction) for next/prev photo navigation
-- [ ] T147 [US5] Add keyboard event listeners (ArrowLeft, ArrowRight, Escape)
+- [x] T143 [US5] Create photo viewer modal structure in Public/index.html (full-screen overlay)
+- [x] T144 [US5] Implement openPhotoViewer(photoIndex) function in Public/js/photos.js
+- [x] T145 [US5] Implement renderFullscreenPhoto(photo) to display full-resolution image
+- [x] T146 [US5] Implement navigatePhoto(direction) for next/prev photo navigation
+- [x] T147 [US5] Add keyboard event listeners (ArrowLeft, ArrowRight, Escape)
 - [ ] T148 [US5] Add touch swipe gesture support for mobile navigation (touchstart, touchmove, touchend)
-- [ ] T149 [US5] Implement closePhotoViewer() function to return to tile view
-- [ ] T150 [US5] Add photo index indicator (e.g., "3 / 15")
-- [ ] T151 [US5] Style full-screen viewer with CSS (centered image, dark overlay, controls)
-- [ ] T152 [US5] Add fade-in/fade-out transitions for smooth photo changes (<200ms)
-- [ ] T153 [US5] Optimize image loading (preload next/prev images)
-- [ ] T154 [US5] Add error handling for missing source files (show placeholder)
-- [ ] T155 [US5] Ensure accessibility (focus trap, ARIA labels, screen reader support)
+- [x] T149 [US5] Implement closePhotoViewer() function to return to tile view
+- [x] T150 [US5] Add photo index indicator (e.g., "3 / 15")
+- [x] T151 [US5] Style full-screen viewer with CSS (centered image, dark overlay, controls)
+- [x] T152 [US5] Add fade-in/fade-out transitions for smooth photo changes (<200ms)
+- [x] T153 [US5] Optimize image loading (preload next/prev images)
+- [x] T154 [US5] Add error handling for missing source files (show placeholder)
+- [x] T155 [US5] Ensure accessibility (focus trap, ARIA labels, screen reader support)
 - [ ] T156 [US5] Run tests - verify ALL tests PASS (green phase)
 - [ ] T157 [US5] Refactor viewer code for better state management
 - [ ] T158 [US5] Manual testing: Navigate through 20+ photos, verify <200ms transitions
@@ -295,27 +295,27 @@ Based on plan.md structure:
 
 ### Tests for User Preferences (TDD - Write These FIRST) ⚠️
 
-- [ ] T159 [P] Create test for GET /api/preferences - verify default preferences on first launch
-- [ ] T160 [P] Create test for PATCH /api/preferences - verify preference updates
-- [ ] T161 [P] Create test for PATCH /api/preferences - verify validation (thumbnailSize 100-500)
-- [ ] T162 Run tests - verify ALL new tests FAIL (red phase)
+- [X] T159 [P] Create test for GET /api/preferences - verify default preferences on first launch
+- [X] T160 [P] Create test for PATCH /api/preferences - verify preference updates
+- [X] T161 [P] Create test for PATCH /api/preferences - verify validation (thumbnailSize 100-500)
+- [X] T162 Run tests - verify ALL new tests FAIL (red phase)
 
 ### Implementation for User Preferences
 
-- [ ] T163 [P] Implement PreferenceController.show in Sources/App/Controllers/PreferenceController.swift (GET)
-- [ ] T164 [P] Implement PreferenceController.update in Sources/App/Controllers/PreferenceController.swift (PATCH)
-- [ ] T165 Add singleton initialization in configure.swift (create default preferences if missing)
-- [ ] T166 Add validation for sortDirection (ASC/DESC), thumbnailSize (100-500), theme (light/dark)
-- [ ] T167 Register preference routes in routes.swift
-- [ ] T168 Create settings modal UI in Public/index.html
-- [ ] T169 Implement loadPreferences() function in Public/js/utils.js
-- [ ] T170 Implement updatePreference(key, value) function to PATCH /api/preferences
-- [ ] T171 Add theme switcher (light/dark mode) with CSS variable updates
-- [ ] T172 Add sort direction toggle (newest/oldest first)
-- [ ] T173 Add thumbnail size slider (100-500px with live preview)
-- [ ] T174 Apply preferences on app load (theme, sort direction)
-- [ ] T175 Style settings modal with accessibility in mind
-- [ ] T176 Run tests - verify ALL tests PASS (green phase)
+- [X] T163 [P] Implement PreferenceController.show in Sources/App/Controllers/PreferenceController.swift (GET)
+- [X] T164 [P] Implement PreferenceController.update in Sources/App/Controllers/PreferenceController.swift (PATCH)
+- [X] T165 Add singleton initialization in configure.swift (create default preferences if missing)
+- [X] T166 Add validation for sortDirection (ASC/DESC), thumbnailSize (100-500), theme (light/dark)
+- [X] T167 Register preference routes in routes.swift
+- [X] T168 Create settings modal UI in Public/index.html
+- [X] T169 Implement loadPreferences() function in Public/js/utils.js
+- [X] T170 Implement updatePreference(key, value) function to PATCH /api/preferences
+- [X] T171 Add theme switcher (light/dark mode) with CSS variable updates
+- [X] T172 Add sort direction toggle (newest/oldest first)
+- [X] T173 Add thumbnail size slider (100-500px with live preview)
+- [X] T174 Apply preferences on app load (theme, sort direction)
+- [X] T175 Style settings modal with accessibility in mind
+- [X] T176 Run tests - verify ALL tests PASS (green phase)
 - [ ] T177 Refactor preference handling code
 - [ ] T178 Manual testing: Change all preferences, verify persistence across refresh
 
@@ -325,17 +325,17 @@ Based on plan.md structure:
 
 **Purpose**: Final polish, error handling, accessibility, and performance optimization
 
-- [ ] T179 [P] Add comprehensive error logging with Vapor's Logger throughout application
-- [ ] T180 [P] Add API error handling middleware for consistent error responses
+- [X] T179 [P] Add comprehensive error logging with Vapor's Logger throughout application
+- [X] T180 [P] Add API error handling middleware for consistent error responses
 - [ ] T181 [P] Implement database connection pooling optimization in configure.swift
 - [ ] T182 [P] Add request rate limiting middleware (optional, for production)
-- [ ] T183 [P] Create comprehensive README.md with setup instructions and architecture overview
-- [ ] T184 [P] Add inline code documentation for public APIs and complex logic
+- [X] T183 [P] Create comprehensive README.md with setup instructions and architecture overview
+- [X] T184 [P] Add inline code documentation for public APIs and complex logic
 - [ ] T185 Add ARIA labels and roles to all interactive elements
 - [ ] T186 Test keyboard navigation through entire application (tab order, focus states)
 - [ ] T187 Test screen reader compatibility (VoiceOver on macOS, NVDA on Windows)
 - [ ] T188 Verify WCAG 2.1 Level AA compliance (contrast ratios, text sizes)
-- [ ] T189 Add focus visible styles for keyboard navigation
+- [X] T189 Add focus visible styles for keyboard navigation
 - [ ] T190 Test responsive design on various screen sizes (320px to 2560px wide)
 - [ ] T191 Optimize CSS for mobile performance (minimize repaints, use transform/opacity)
 - [ ] T192 Add service worker for offline thumbnail caching (optional enhancement)

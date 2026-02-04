@@ -136,4 +136,126 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeErrorBtn) {
         closeErrorBtn.addEventListener('click', hideError);
     }
+    
+    // T174: Apply preferences on app load
+    loadAndApplyPreferences();
+    
+    // T168: Settings button handler
+    const settingsBtn = document.getElementById('settingsBtn');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', showSettingsModal);
+    }
+    
+    // Settings form submit
+    const settingsForm = document.getElementById('settingsForm');
+    if (settingsForm) {
+        settingsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await saveSettings();
+        });
+    }
+    
+    // T173: Thumbnail size slider live preview
+    const thumbnailSlider = document.getElementById('thumbnailSizeSlider');
+    const thumbnailValue = document.getElementById('thumbnailSizeValue');
+    if (thumbnailSlider && thumbnailValue) {
+        thumbnailSlider.addEventListener('input', (e) => {
+            thumbnailValue.textContent = e.target.value;
+        });
+    }
 });
+
+// T169: Load user preferences from API
+async function loadAndApplyPreferences() {
+    try {
+        const prefs = await fetch('/api/preferences').then(r => r.json());
+        
+        // T171: Apply theme
+        applyTheme(prefs.theme);
+        
+        // Store preferences globally
+        window.userPreferences = prefs;
+        
+        return prefs;
+    } catch (error) {
+        console.error('Failed to load preferences:', error);
+        // Use defaults
+        window.userPreferences = {
+            theme: 'light',
+            sortDirection: 'ASC',
+            thumbnailSize: 200
+        };
+    }
+}
+
+// T171: Apply theme by updating CSS variables
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    if (theme === 'dark') {
+        document.documentElement.style.setProperty('--bg-primary', '#1a1a1a');
+        document.documentElement.style.setProperty('--bg-secondary', '#2d2d2d');
+        document.documentElement.style.setProperty('--text-primary', '#ffffff');
+        document.documentElement.style.setProperty('--text-secondary', '#b0b0b0');
+        document.documentElement.style.setProperty('--border-color', '#404040');
+    } else {
+        document.documentElement.style.setProperty('--bg-primary', '#ffffff');
+        document.documentElement.style.setProperty('--bg-secondary', '#f5f5f5');
+        document.documentElement.style.setProperty('--text-primary', '#1a1a1a');
+        document.documentElement.style.setProperty('--text-secondary', '#666666');
+        document.documentElement.style.setProperty('--border-color', '#e0e0e0');
+    }
+}
+
+// Show settings modal
+function showSettingsModal() {
+    const modal = document.getElementById('settingsModal');
+    const prefs = window.userPreferences || {};
+    
+    // Populate current values
+    document.getElementById('themeSelect').value = prefs.theme || 'light';
+    document.getElementById('sortDirectionSelect').value = prefs.sortDirection || 'ASC';
+    document.getElementById('thumbnailSizeSlider').value = prefs.thumbnailSize || 200;
+    document.getElementById('thumbnailSizeValue').textContent = prefs.thumbnailSize || 200;
+    
+    modal.style.display = 'flex';
+}
+
+// Hide settings modal
+function hideSettingsModal() {
+    document.getElementById('settingsModal').style.display = 'none';
+}
+
+// T170: Save settings via API
+async function saveSettings() {
+    const theme = document.getElementById('themeSelect').value;
+    const sortDirection = document.getElementById('sortDirectionSelect').value;
+    const thumbnailSize = parseInt(document.getElementById('thumbnailSizeSlider').value);
+    
+    try {
+        const prefs = await apiFetch('/api/preferences', {
+            method: 'PATCH',
+            body: JSON.stringify({
+                theme,
+                sortDirection,
+                thumbnailSize
+            })
+        });
+        
+        // Update global preferences
+        window.userPreferences = prefs;
+        
+        // T171: Apply theme immediately
+        applyTheme(theme);
+        
+        // T172: Reload albums if sort direction changed
+        if (typeof loadAlbums === 'function') {
+            await loadAlbums();
+        }
+        
+        hideSettingsModal();
+        showError('Settings saved successfully!', 'success');
+    } catch (error) {
+        console.error('Failed to save settings:', error);
+    }
+}
