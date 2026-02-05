@@ -17,9 +17,9 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Configure SwiftLint for code quality standards per constitution
-- [ ] T002 [P] Review and update Package.swift dependencies (verify Vapor 4.x, Fluent, FluentSQLiteDriver)
-- [ ] T003 [P] Create test database configuration in Tests/AppTests/TestConfig.swift
+- [x] T001 Configure SwiftLint for code quality standards per constitution
+- [x] T002 [P] Review and update Package.swift dependencies (verify Vapor 4.x, Fluent, FluentSQLiteDriver)
+- [x] T003 [P] Create test database configuration in Tests/AppTests/TestUtils.swift
 
 ---
 
@@ -31,25 +31,25 @@
 
 ### User Management Foundation
 
-- [ ] T004 Create User model in Sources/App/Models/User.swift with validation
-- [ ] T005 Create CreateUser migration in Sources/App/Migrations/CreateUser.swift
-- [ ] T006 [P] Create UpdateAlbumWithOwner migration in Sources/App/Migrations/UpdateAlbumWithOwner.swift
-- [ ] T007 [P] Create UpdatePhotoWithOwner migration in Sources/App/Migrations/UpdatePhotoWithOwner.swift
-- [ ] T008 Update Album model in Sources/App/Models/Album.swift to add ownerId relationship
-- [ ] T009 Update Photo model in Sources/App/Models/Photo.swift to add ownerId relationship
+- [x] T004 Create User model in Sources/App/Models/User.swift with validation
+- [x] T005 Create CreateUser migration in Sources/App/Migrations/CreateUser.swift
+- [x] T006 [P] Create UpdateAlbumWithOwner migration in Sources/App/Migrations/UpdateAlbumWithOwner.swift
+- [x] T007 [P] Create UpdatePhotoWithOwner migration in Sources/App/Migrations/UpdatePhotoWithOwner.swift
+- [x] T008 Update Album model in Sources/App/Models/Album.swift to add ownerId relationship
+- [x] T009 Update Photo model in Sources/App/Models/Photo.swift to add ownerId relationship
 
 ### Authentication Foundation
 
-- [ ] T010 Create UserSessionAuthenticator middleware in Sources/App/Middleware/UserSessionAuthenticator.swift
-- [ ] T011 Create UserController in Sources/App/Controllers/UserController.swift (login, logout, me endpoints)
-- [ ] T012 Add user routes to Sources/App/routes.swift (/api/users/login, /api/users/logout, /api/users/me)
-- [ ] T013 Configure session middleware in Sources/App/configure.swift
+- [x] T010 Create UserSessionAuthenticator middleware in Sources/App/Middleware/UserSessionAuthenticator.swift
+- [x] T011 Create UserController in Sources/App/Controllers/UserController.swift (login, logout, me endpoints)
+- [x] T012 Add user routes to Sources/App/routes.swift (/api/users/login, /api/users/logout, /api/users/me)
+- [x] T013 Configure session middleware in Sources/App/configure.swift
 
 ### Testing Foundation
 
-- [ ] T014 [P] Create UserTests in Tests/AppTests/Models/UserTests.swift
-- [ ] T015 [P] Create UserControllerTests in Tests/AppTests/Controllers/UserControllerTests.swift
-- [ ] T016 Run migrations and verify user authentication works: swift run App migrate
+- [x] T014 [P] Create UserTests in Tests/AppTests/Models/UserTests.swift
+- [x] T015 [P] Create UserControllerTests in Tests/AppTests/Controllers/UserControllerTests.swift
+- [x] T016 Run migrations and verify user authentication works: swift run App migrate
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -63,14 +63,14 @@
 
 ### Tests for User Story 1 & 2 (Write FIRST, ensure they FAIL) ⚠️
 
-- [ ] T017 [P] [US1] Create LikeTests for Like model validation in Tests/AppTests/Models/LikeTests.swift
-- [ ] T018 [P] [US1] Create LikeServiceTests in Tests/AppTests/Services/LikeServiceTests.swift
+- [x] T017 [P] [US1] Create LikeTests for Like model validation in Tests/AppTests/Models/LikeTests.swift
+- [x] T018 [P] [US1] Create LikeServiceTests in Tests/AppTests/Services/LikeServiceTests.swift
   - Test likePhoto prevents self-like (throws error)
   - Test likePhoto is idempotent (same like returned)
   - Test unlikePhoto is idempotent (no error if not liked)
   - Test getPhotoLikeCount returns accurate count
   - Test hasUserLikedPhoto returns correct boolean
-- [ ] T019 [P] [US1] Create LikeControllerTests in Tests/AppTests/Controllers/LikeControllerTests.swift
+- [x] T019 [P] [US1] Create LikeControllerTests in Tests/AppTests/Controllers/LikeControllerTests.swift
   - Test POST /api/photos/:id/like returns 200 for valid like
   - Test POST /api/photos/:id/like returns 400 for self-like
   - Test POST /api/photos/:id/like returns 401 without authentication
@@ -79,17 +79,17 @@
 
 ### Database Layer for User Story 1 & 2
 
-- [ ] T020 [US1] Create Like model in Sources/App/Models/Like.swift with XOR validation
-- [ ] T021 [US1] Create CreateLike migration in Sources/App/Migrations/CreateLike.swift
+- [x] T020 [US1] Create Like model in Sources/App/Models/Like.swift with XOR validation
+- [x] T021 [US1] Create CreateLike migration in Sources/App/Migrations/CreateLike.swift
   - Add XOR check constraint (photoId XOR albumId)
   - Add unique indexes for (userId, photoId) and (userId, albumId)
   - Add indexes on photoId and albumId for counting
   - Add foreign key constraints with cascade delete
-- [ ] T022 [US1] Register Like migration in Sources/App/configure.swift and run: swift run App migrate
+- [x] T022 [US1] Register Like migration in Sources/App/configure.swift and run: swift run App migrate
 
 ### Service Layer for User Story 1 & 2
 
-- [ ] T023 [US1] Create LikeService in Sources/App/Services/LikeService.swift
+- [x] T023 [US1] Create LikeService in Sources/App/Services/LikeService.swift
   - Implement likePhoto(photoId, userId, db) with self-like prevention
   - Implement unlikePhoto(photoId, userId, db) idempotent operation
   - Implement getPhotoLikeCount(photoId, db)
@@ -101,31 +101,31 @@
 
 ### API Layer for User Story 1 & 2
 
-- [ ] T024 [US1] Create LikeController in Sources/App/Controllers/LikeController.swift
+- [x] T024 [US1] Create LikeController in Sources/App/Controllers/LikeController.swift
   - Implement POST /api/photos/:photoId/like (likePhoto)
   - Implement DELETE /api/photos/:photoId/like (unlikePhoto)
   - Implement GET /api/photos/:photoId/likes (getPhotoLikes)
   - Implement POST /api/albums/:albumId/like (likeAlbum)
   - Implement DELETE /api/albums/:albumId/like (unlikeAlbum)
   - Implement GET /api/albums/:albumId/likes (getAlbumLikes)
-- [ ] T025 [US1] Create LikeResponse and LikeInfoResponse DTOs in Sources/App/Controllers/LikeController.swift
-- [ ] T026 [US1] Add like routes to Sources/App/routes.swift with UserSessionAuthenticator middleware
-- [ ] T027 [US1] Run tests to verify like API endpoints work: swift test --filter LikeControllerTests
+- [x] T025 [US1] Create LikeResponse and LikeInfoResponse DTOs in Sources/App/Controllers/LikeController.swift
+- [x] T026 [US1] Add like routes to Sources/App/routes.swift with UserSessionAuthenticator middleware
+- [x] T027 [US1] Run tests to verify like API endpoints work: swift test --filter LikeControllerTests
 
 ### Frontend for User Story 1 & 2
 
-- [ ] T028 [P] [US2] Create like button component in Public/js/likes.js
+- [x] T028 [P] [US2] Create like button component in Public/js/likes.js
   - Implement LikeButton class with render, toggle, fetchLikeInfo methods
   - Add optimistic UI updates (immediate visual feedback)
   - Add HTTP polling (2-second interval) for like count updates
   - Add error handling for self-like attempts
-- [ ] T029 [P] [US2] Add like button styles in Public/css/styles.css
+- [x] T029 [P] [US2] Add like button styles in Public/css/styles.css
   - Style .like-button with 44x44px minimum touch target
   - Add .liked state with visual differentiation
   - Add :hover and :disabled states
   - Style .like-count display
-- [ ] T030 [US2] Integrate like buttons into Public/js/photos.js (photo detail view)
-- [ ] T031 [US2] Integrate like buttons into Public/js/albums.js (album grid view)
+- [x] T030 [US2] Integrate like buttons into Public/js/photos.js (photo detail view)
+- [x] T031 [US2] Integrate like buttons into Public/js/albums.js (album grid view)
 
 ### Extended API Responses for User Story 2
 

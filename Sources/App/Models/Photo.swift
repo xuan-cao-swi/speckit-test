@@ -1,7 +1,7 @@
 import Fluent
 import Vapor
 
-final class Photo: Model, Content {
+final class Photo: Model, Content, @unchecked Sendable {
     static let schema = "photos"
     
     @ID(key: .id)
@@ -9,6 +9,10 @@ final class Photo: Model, Content {
     
     @Parent(key: "album_id")
     var album: Album
+    
+    // T009: Add owner relationship for likes feature (optional for backward compatibility)
+    @OptionalParent(key: "owner_id")
+    var owner: User?
     
     @Field(key: "file_path")
     var filePath: String
@@ -45,7 +49,8 @@ final class Photo: Model, Content {
         fileSize: Int,
         width: Int,
         height: Int,
-        format: String
+        format: String,
+        ownerId: UUID? = nil
     ) {
         self.id = id
         self.$album.id = albumId
@@ -56,6 +61,7 @@ final class Photo: Model, Content {
         self.width = width
         self.height = height
         self.format = format
+        self.$owner.id = ownerId
     }
 }
 
