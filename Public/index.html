@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Photo Album Organizer - Manage your photo collections">
+    <title>Photo Album Organizer</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header role="banner">
+        <h1>Photo Album Organizer</h1>
+        <nav role="navigation" aria-label="Main navigation">
+            <button id="settingsBtn" class="btn btn-secondary" aria-label="Settings">⚙️ Settings</button>
+            <button id="createAlbumBtn" class="btn btn-primary" aria-label="Create new album">
+                + Create Album
+            </button>
+            <button id="backBtn" class="btn btn-secondary" aria-label="Back to albums" style="display: none;">
+                ← Back to Albums
+            </button>
+        </nav>
+    </header>
+    
+    <main role="main">
+        <!-- Album List View -->
+        <section id="albumListView" class="view" aria-label="Album list">
+            <div id="albumGrid" class="album-grid" role="list">
+                <!-- Albums will be dynamically inserted here -->
+            </div>
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <p>No albums yet. Create your first album to get started!</p>
+            </div>
+        </section>
+        
+        <!-- Album Detail View (Photo Grid) -->
+        <section id="albumDetailView" class="view" style="display: none;" aria-label="Album photos">
+            <div class="album-header">
+                <h2 id="albumTitle"></h2>
+                <p id="albumDate" class="album-date"></p>
+                <button id="addPhotosBtn" class="btn btn-primary" aria-label="Add photos to album">
+                    + Add Photos
+                </button>
+            </div>
+            <div id="photoGrid" class="photo-grid" role="list">
+                <!-- Photos will be dynamically inserted here -->
+            </div>
+            <div id="photoEmptyState" class="empty-state" style="display: none;">
+                <p>No photos in this album. Add some photos to get started!</p>
+            </div>
+        </section>
+        
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="loading" style="display: none;" role="status" aria-live="polite">
+            <span>Loading...</span>
+        </div>
+        
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message" style="display: none;" role="alert" aria-live="assertive">
+            <span id="errorText"></span>
+            <button id="closeError" class="close-btn" aria-label="Close error message">×</button>
+        </div>
+    </main>
+    
+    <!-- Modal for Create/Edit Album -->
+    <div id="albumModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-modal="true" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Create Album</h2>
+                <button class="close-btn" aria-label="Close modal">×</button>
+            </div>
+            <form id="albumForm">
+                <div class="form-group">
+                    <label for="albumName">Album Name <span class="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="albumName" 
+                        name="name" 
+                        required 
+                        minlength="1" 
+                        maxlength="255"
+                        aria-required="true"
+                        aria-describedby="nameHelp"
+                    >
+                    <small id="nameHelp" class="form-help">Enter a descriptive name for your album</small>
+                    <span class="error-text" id="nameError" aria-live="polite"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="albumDate">Date <span class="required">*</span></label>
+                    <input 
+                        type="date" 
+                        id="albumDate" 
+                        name="date" 
+                        required
+                        aria-required="true"
+                        aria-describedby="dateHelp"
+                    >
+                    <small id="dateHelp" class="form-help">Select the date for this album</small>
+                    <span class="error-text" id="dateError" aria-live="polite"></span>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Album</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Hidden file input for photo selection -->
+    <input 
+        type="file" 
+        id="photoFileInput" 
+        accept="image/jpeg,image/png,image/heic,image/webp,image/gif" 
+        multiple 
+        style="display: none;"
+        aria-label="Select photos to add"
+    >
+    
+    <!-- T143: Full-screen photo viewer modal -->
+    <div id="photoViewerModal" class="photo-viewer-modal" style="display: none;" role="dialog" aria-modal="true" aria-label="Photo viewer">
+        <button class="viewer-close-btn" onclick="closePhotoViewer()" aria-label="Close photo viewer">×</button>
+        
+        <button class="viewer-nav-btn viewer-prev" onclick="navigatePhoto(-1)" aria-label="Previous photo">‹</button>
+        <button class="viewer-nav-btn viewer-next" onclick="navigatePhoto(1)" aria-label="Next photo">›</button>
+        
+        <div class="viewer-content">
+            <img id="viewerImage" src="" alt="Full-screen photo">
+            <div class="viewer-info">
+                <span id="viewerIndex">1 / 1</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- T168: Settings modal -->
+    <div id="settingsModal" class="modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+        <div class="modal-content">
+            <h2 id="settingsModalTitle">Settings</h2>
+            <form id="settingsForm">
+                <div class="form-group">
+                    <label for="themeSelect">Theme</label>
+                    <select id="themeSelect" class="form-control">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sortDirectionSelect">Sort Albums By</label>
+                    <select id="sortDirectionSelect" class="form-control">
+                        <option value="ASC">Oldest First</option>
+                        <option value="DESC">Newest First</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="thumbnailSizeSlider">
+                        Thumbnail Size: <span id="thumbnailSizeValue">200</span>px
+                    </label>
+                    <input 
+                        type="range" 
+                        id="thumbnailSizeSlider" 
+                        min="100" 
+                        max="500" 
+                        value="200"
+                        step="50"
+                        class="form-control"
+                    >
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideSettingsModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="/js/utils.js"></script>
+    <script src="/js/albums.js"></script>
+    <script src="/js/photos.js"></script>
+</body>
+</html>
