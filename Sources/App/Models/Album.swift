@@ -1,7 +1,7 @@
 import Fluent
 import Vapor
 
-final class Album: Model, Content {
+final class Album: Model, Content, @unchecked Sendable {
     static let schema = "albums"
     
     @ID(key: .id)
@@ -19,6 +19,10 @@ final class Album: Model, Content {
     @OptionalField(key: "cover_photo_id")
     var coverPhotoId: UUID?
     
+    // T008: Add owner relationship for likes feature (optional for backward compatibility)
+    @OptionalParent(key: "owner_id")
+    var owner: User?
+    
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
     
@@ -30,12 +34,13 @@ final class Album: Model, Content {
     
     init() { }
     
-    init(id: UUID? = nil, name: String, date: Date, customOrder: Int? = nil, coverPhotoId: UUID? = nil) {
+    init(id: UUID? = nil, name: String, date: Date, customOrder: Int? = nil, coverPhotoId: UUID? = nil, ownerId: UUID? = nil) {
         self.id = id
         self.name = name
         self.date = date
         self.customOrder = customOrder
         self.coverPhotoId = coverPhotoId
+        self.$owner.id = ownerId
     }
 }
 

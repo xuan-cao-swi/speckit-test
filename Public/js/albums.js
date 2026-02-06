@@ -4,7 +4,8 @@
 const AppState = {
     albums: [],
     currentView: 'list', // 'list' or 'detail'
-    currentAlbumId: null
+    currentAlbumId: null,
+    albumLikeButtons: {} // T031: Track like button instances for albums
 };
 
 // T043: Load albums from API
@@ -22,6 +23,10 @@ async function loadAlbums() {
 function renderAlbums() {
     const albumGrid = document.getElementById('albumGrid');
     const emptyState = document.getElementById('emptyState');
+    
+    // T031: Clean up existing like buttons
+    Object.values(AppState.albumLikeButtons).forEach(btn => btn.destroy());
+    AppState.albumLikeButtons = {};
     
     if (!AppState.albums || AppState.albums.length === 0) {
         albumGrid.innerHTML = '';
@@ -47,11 +52,17 @@ function renderAlbums() {
                 <p class="album-count">${album.photos?.length || 0} photos</p>
             </div>
             <div class="album-actions">
+                <div id="album-like-${album.id}" class="album-like-container"></div>
                 <button class="btn-icon edit-album" data-album-id="${album.id}" aria-label="Edit ${escapeHtml(album.name)}">✏️</button>
                 <button class="btn-icon delete-album" data-album-id="${album.id}" aria-label="Delete ${escapeHtml(album.name)}">🗑️</button>
             </div>
         </article>
     `).join('');
+    
+    // T031: Initialize like buttons for each album
+    AppState.albums.forEach(album => {
+        initAlbumLikeButton(album.id);
+    });
     
     // T123: Setup drag-and-drop handlers
     setupDragAndDrop();
@@ -118,6 +129,18 @@ function showAlbumList() {
     document.getElementById('albumDetailView').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
     document.getElementById('createAlbumBtn').style.display = 'inline-block';
+}
+
+// T031: Initialize a like button for an album
+function initAlbumLikeButton(albumId) {
+    const container = document.getElementById(`album-like-${albumId}`);
+    if (container && typeof LikeButton !== 'undefined') {
+        AppState.albumLikeButtons[albumId] = new LikeButton({
+            targetType: 'album',
+            targetId: albumId,
+            container: container
+        });
+    }
 }
 
 // Initialize on page load

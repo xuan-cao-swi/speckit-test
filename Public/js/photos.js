@@ -3,7 +3,8 @@
 // T046: Photo grid state
 const PhotoState = {
     photos: [],
-    currentAlbumId: null
+    currentAlbumId: null,
+    likeButtons: {} // T030: Track like button instances
 };
 
 // T047: Load photos for an album
@@ -24,6 +25,10 @@ function renderPhotoGrid() {
     const photoGrid = document.getElementById('photoGrid');
     const emptyState = document.getElementById('photoEmptyState');
     
+    // T030: Clean up existing like buttons
+    Object.values(PhotoState.likeButtons).forEach(btn => btn.destroy());
+    PhotoState.likeButtons = {};
+    
     if (!PhotoState.photos || PhotoState.photos.length === 0) {
         photoGrid.innerHTML = '';
         emptyState.style.display = 'block';
@@ -32,7 +37,7 @@ function renderPhotoGrid() {
     
     emptyState.style.display = 'none';
     
-    // T103: Render photo tile with delete button
+    // T103: Render photo tile with delete button and like button
     photoGrid.innerHTML = PhotoState.photos.map((photo, index) => `
         <div class="photo-tile" 
              role="listitem" 
@@ -47,16 +52,37 @@ function renderPhotoGrid() {
                 style="cursor: pointer;"
                 onerror="this.src='/images/placeholder.jpg'"
             >
-            <button 
-                class="photo-delete-btn btn-icon" 
-                onclick="deletePhoto('${photo.id}')"
-                aria-label="Delete photo"
-                title="Delete photo"
-            >
-                <span aria-hidden="true">×</span>
-            </button>
+            <div class="photo-tile-actions">
+                <div id="photo-like-${photo.id}" class="photo-tile-like"></div>
+                <button 
+                    class="photo-delete-btn btn-icon" 
+                    onclick="deletePhoto('${photo.id}')"
+                    aria-label="Delete photo"
+                    title="Delete photo"
+                >
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
         </div>
     `).join('');
+    
+    // T030: Initialize like buttons for each photo
+    PhotoState.photos.forEach(photo => {
+        initPhotoLikeButton(photo.id);
+    });
+}
+
+// T030: Initialize a like button for a photo
+function initPhotoLikeButton(photoId) {
+    const container = document.getElementById(`photo-like-${photoId}`);
+    if (container && typeof LikeButton !== 'undefined') {
+        PhotoState.likeButtons[photoId] = new LikeButton({
+            targetType: 'photo',
+            targetId: photoId,
+            container: container
+        });
+    }
+}
 }
 
 // T101-T102: Handle photo file selection and upload
@@ -148,6 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // T144-T155: Full-screen photo viewer implementation
 let currentPhotoIndex = 0;
+let viewerLikeButton = null; // T030: Like button for viewer
 
 function openPhotoViewer(photoIndex) {
     if (!PhotoState.photos || PhotoState.photos.length === 0) return;
@@ -175,6 +202,22 @@ function renderFullscreenPhoto() {
     
     // T150: Show photo index
     viewerIndex.textContent = `${currentPhotoIndex + 1} / ${PhotoState.photos.length}`;
+    
+    // T030: Update like button in viewer
+    const viewerLikeContainer = document.getElementById('viewerLikeContainer');
+    if (viewerLikeContainer && typeof LikeButton !== 'undefined') {
+        // Destroy existing like button if any
+        if (viewerLikeButton) {
+            viewerLikeButton.destroy();
+        }
+        viewerLikeContainer.innerHTML = '';
+        viewerLikeButton = new LikeButton({
+            targetType: 'photo',
+            targetId: photo.id,
+            container: viewerLikeContainer,
+            showCount: true
+        });
+    }
     
     // T154: Error handling for missing files
     viewerImage.onerror = () => {
@@ -204,4 +247,10 @@ function navigatePhoto(direction) {
 function closePhotoViewer() {
     const modal = document.getElementById('photoViewerModal');
     modal.style.display = 'none';
+    
+    // T030: Clean up viewer like button
+    if (viewerLikeButton) {
+        viewerLikeButton.destroy();
+        viewerLikeButton = null;
+    }
 }

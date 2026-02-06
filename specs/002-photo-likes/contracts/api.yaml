@@ -1,0 +1,679 @@
+openapi: 3.0.3
+info:
+  title: Photo Album Likes API
+  description: API endpoints for liking/unliking photos and albums, viewing like counts, and managing users
+  version: 1.0.0
+  contact:
+    name: Photo Album API
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+tags:
+  - name: Likes
+    description: Like and unlike operations for photos and albums
+  - name: Users
+    description: User management and session operations
+  - name: Photos
+    description: Photo endpoints (extended with like counts)
+  - name: Albums
+    description: Album endpoints (extended with like counts)
+
+paths:
+  # ============================================
+  # Like Endpoints
+  # ============================================
+  
+  /api/photos/{photoId}/like:
+    post:
+      tags:
+        - Likes
+      summary: Like a photo
+      description: Creates a like for the specified photo by the current user. Idempotent - returns success if already liked.
+      operationId: likePhoto
+      parameters:
+        - $ref: '#/components/parameters/PhotoIdParam'
+      responses:
+        '200':
+          description: Photo successfully liked (or already liked)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikeResponse'
+        '400':
+          description: Bad request (e.g., user trying to like own photo)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                selfLike:
+                  value:
+                    error: true
+                    reason: "Cannot like your own content"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Photo not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - sessionCookie: []
+    
+    delete:
+      tags:
+        - Likes
+      summary: Unlike a photo
+      description: Removes the current user's like from the specified photo. Idempotent - returns success if not liked.
+      operationId: unlikePhoto
+      parameters:
+        - $ref: '#/components/parameters/PhotoIdParam'
+      responses:
+        '204':
+          description: Photo successfully unliked (or was not liked)
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Photo not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - sessionCookie: []
+
+  /api/albums/{albumId}/like:
+    post:
+      tags:
+        - Likes
+      summary: Like an album
+      description: Creates a like for the specified album by the current user. Idempotent - returns success if already liked.
+      operationId: likeAlbum
+      parameters:
+        - $ref: '#/components/parameters/AlbumIdParam'
+      responses:
+        '200':
+          description: Album successfully liked (or already liked)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikeResponse'
+        '400':
+          description: Bad request (e.g., user trying to like own album)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                selfLike:
+                  value:
+                    error: true
+                    reason: "Cannot like your own content"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Album not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - sessionCookie: []
+    
+    delete:
+      tags:
+        - Likes
+      summary: Unlike an album
+      description: Removes the current user's like from the specified album. Idempotent - returns success if not liked.
+      operationId: unlikeAlbum
+      parameters:
+        - $ref: '#/components/parameters/AlbumIdParam'
+      responses:
+        '204':
+          description: Album successfully unliked (or was not liked)
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Album not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - sessionCookie: []
+
+  /api/photos/{photoId}/likes:
+    get:
+      tags:
+        - Likes
+      summary: Get like information for a photo
+      description: Returns the total like count and whether the current user has liked this photo
+      operationId: getPhotoLikes
+      parameters:
+        - $ref: '#/components/parameters/PhotoIdParam'
+      responses:
+        '200':
+          description: Like information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikeInfoResponse'
+        '404':
+          description: Photo not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - sessionCookie: []
+
+  /api/albums/{albumId}/likes:
+    get:
+      tags:
+        - Likes
+      summary: Get like information for an album
+      description: Returns the total like count and whether the current user has liked this album
+      operationId: getAlbumLikes
+      parameters:
+        - $ref: '#/components/parameters/AlbumIdParam'
+      responses:
+        '200':
+          description: Like information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikeInfoResponse'
+        '404':
+          description: Album not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - sessionCookie: []
+
+  /api/photos/{photoId}/likers:
+    get:
+      tags:
+        - Likes
+      summary: Get list of users who liked a photo (Priority P3)
+      description: Returns usernames of users who liked this photo. May be limited to first 20 results.
+      operationId: getPhotoLikers
+      parameters:
+        - $ref: '#/components/parameters/PhotoIdParam'
+        - name: limit
+          in: query
+          description: Maximum number of likers to return
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: List of likers retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikersResponse'
+        '404':
+          description: Photo not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - sessionCookie: []
+
+  /api/albums/{albumId}/likers:
+    get:
+      tags:
+        - Likes
+      summary: Get list of users who liked an album (Priority P3)
+      description: Returns usernames of users who liked this album. May be limited to first 20 results.
+      operationId: getAlbumLikers
+      parameters:
+        - $ref: '#/components/parameters/AlbumIdParam'
+        - name: limit
+          in: query
+          description: Maximum number of likers to return
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: List of likers retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikersResponse'
+        '404':
+          description: Album not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - sessionCookie: []
+
+  # ============================================
+  # User Session Endpoints
+  # ============================================
+
+  /api/users/login:
+    post:
+      tags:
+        - Users
+      summary: Login user
+      description: Creates a session for the user. If username doesn't exist, creates new user (simple auto-registration).
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+              properties:
+                username:
+                  type: string
+                  minLength: 3
+                  maxLength: 50
+                  pattern: '^[a-zA-Z0-9_-]+$'
+                  description: Username (alphanumeric, hyphens, underscores only)
+                  example: "john_doe"
+      responses:
+        '200':
+          description: Login successful, session created
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: vapor-session=abc123; Path=/; HttpOnly; SameSite=Lax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Invalid username format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/users/logout:
+    post:
+      tags:
+        - Users
+      summary: Logout user
+      description: Destroys the current user session
+      operationId: logoutUser
+      responses:
+        '204':
+          description: Logout successful, session destroyed
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: vapor-session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0
+      security:
+        - sessionCookie: []
+
+  /api/users/me:
+    get:
+      tags:
+        - Users
+      summary: Get current user
+      description: Returns information about the currently authenticated user
+      operationId: getCurrentUser
+      responses:
+        '200':
+          description: Current user information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - sessionCookie: []
+
+  # ============================================
+  # Extended Photo/Album Endpoints
+  # ============================================
+
+  /api/photos/{photoId}:
+    get:
+      tags:
+        - Photos
+      summary: Get photo with like count (EXTENDED)
+      description: Existing endpoint extended to include like count and current user's like status
+      operationId: getPhoto
+      parameters:
+        - $ref: '#/components/parameters/PhotoIdParam'
+      responses:
+        '200':
+          description: Photo details with like information
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PhotoBase'
+                  - type: object
+                    properties:
+                      likeCount:
+                        type: integer
+                        description: Total number of likes
+                        example: 42
+                      isLikedByCurrentUser:
+                        type: boolean
+                        description: Whether current user has liked this photo
+                        example: true
+                      isOwnedByCurrentUser:
+                        type: boolean
+                        description: Whether current user owns this photo
+                        example: false
+        '404':
+          description: Photo not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - sessionCookie: []
+
+  /api/albums/{albumId}:
+    get:
+      tags:
+        - Albums
+      summary: Get album with like count (EXTENDED)
+      description: Existing endpoint extended to include like count and current user's like status
+      operationId: getAlbum
+      parameters:
+        - $ref: '#/components/parameters/AlbumIdParam'
+      responses:
+        '200':
+          description: Album details with like information
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AlbumBase'
+                  - type: object
+                    properties:
+                      likeCount:
+                        type: integer
+                        description: Total number of likes
+                        example: 15
+                      isLikedByCurrentUser:
+                        type: boolean
+                        description: Whether current user has liked this album
+                        example: false
+                      isOwnedByCurrentUser:
+                        type: boolean
+                        description: Whether current user owns this album
+                        example: true
+        '404':
+          description: Album not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - sessionCookie: []
+
+# ============================================
+# Component Definitions
+# ============================================
+
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: vapor-session
+      description: Session cookie set by /api/users/login
+
+  parameters:
+    PhotoIdParam:
+      name: photoId
+      in: path
+      required: true
+      description: UUID of the photo
+      schema:
+        type: string
+        format: uuid
+        example: "550e8400-e29b-41d4-a716-446655440000"
+
+    AlbumIdParam:
+      name: albumId
+      in: path
+      required: true
+      description: UUID of the album
+      schema:
+        type: string
+        format: uuid
+        example: "550e8400-e29b-41d4-a716-446655440001"
+
+  responses:
+    UnauthorizedError:
+      description: Not authenticated - session cookie missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: true
+            reason: "Unauthorized - please login"
+
+  schemas:
+    LikeResponse:
+      type: object
+      required:
+        - id
+        - userId
+        - createdAt
+        - likeCount
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID of the like record
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        userId:
+          type: string
+          format: uuid
+          description: UUID of the user who liked
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        photoId:
+          type: string
+          format: uuid
+          nullable: true
+          description: UUID of liked photo (null if album like)
+          example: "550e8400-e29b-41d4-a716-446655440002"
+        albumId:
+          type: string
+          format: uuid
+          nullable: true
+          description: UUID of liked album (null if photo like)
+          example: null
+        createdAt:
+          type: string
+          format: date-time
+          description: When the like was created
+          example: "2026-02-05T14:30:00Z"
+        likeCount:
+          type: integer
+          description: Total like count for the content after this operation
+          example: 43
+
+    LikeInfoResponse:
+      type: object
+      required:
+        - count
+        - isLikedByCurrentUser
+      properties:
+        count:
+          type: integer
+          description: Total number of likes
+          minimum: 0
+          example: 42
+        isLikedByCurrentUser:
+          type: boolean
+          description: Whether the current user has liked this content
+          example: true
+
+    LikersResponse:
+      type: object
+      required:
+        - totalCount
+        - likers
+        - hasMore
+      properties:
+        totalCount:
+          type: integer
+          description: Total number of users who liked this content
+          minimum: 0
+          example: 127
+        likers:
+          type: array
+          description: List of usernames who liked (limited by query param)
+          items:
+            type: object
+            required:
+              - username
+              - likedAt
+            properties:
+              username:
+                type: string
+                example: "jane_smith"
+              likedAt:
+                type: string
+                format: date-time
+                example: "2026-02-05T10:15:00Z"
+        hasMore:
+          type: boolean
+          description: Whether there are more likers beyond the returned list
+          example: true
+
+    UserResponse:
+      type: object
+      required:
+        - id
+        - username
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User's unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        username:
+          type: string
+          description: User's display name
+          example: "john_doe"
+        createdAt:
+          type: string
+          format: date-time
+          description: When user account was created
+          example: "2026-02-01T09:00:00Z"
+
+    PhotoBase:
+      type: object
+      required:
+        - id
+        - albumId
+        - ownerId
+        - filePath
+        - displayOrder
+        - fileSize
+        - width
+        - height
+        - format
+        - addedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        albumId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+          description: User who owns this photo
+        filePath:
+          type: string
+        displayOrder:
+          type: integer
+        thumbnailPath:
+          type: string
+          nullable: true
+        fileSize:
+          type: integer
+        width:
+          type: integer
+        height:
+          type: integer
+        format:
+          type: string
+          enum: [JPEG, PNG, HEIC, WebP, GIF]
+        addedAt:
+          type: string
+          format: date-time
+
+    AlbumBase:
+      type: object
+      required:
+        - id
+        - name
+        - date
+        - ownerId
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        date:
+          type: string
+          format: date
+        ownerId:
+          type: string
+          format: uuid
+          description: User who owns this album
+        customOrder:
+          type: integer
+          nullable: true
+        coverPhotoId:
+          type: string
+          format: uuid
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - reason
+      properties:
+        error:
+          type: boolean
+          description: Always true for error responses
+          example: true
+        reason:
+          type: string
+          description: Human-readable error message
+          example: "Cannot like your own content"
